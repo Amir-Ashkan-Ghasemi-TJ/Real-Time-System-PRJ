@@ -1,0 +1,298 @@
+/* ─── Reset & Base ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --felt:       #1a5c2e;
+  --felt-dark:  #134820;
+  --rail:       #5c3210;
+  --rail-dark:  #3b1f09;
+  --gold:       #d4a017;
+  --gold-light: #f0c040;
+  --bg:         #0e0e0e;
+  --surface:    #1a1a1a;
+  --border:     #2e2e2e;
+  --text:       #e8e0d0;
+  --text-dim:   #888;
+  --p1-color:   #4a9eff;
+  --p2-color:   #ff6b4a;
+  --radius:     8px;
+  --shadow:     0 4px 24px rgba(0,0,0,.6);
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Courier New', Courier, monospace;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* ─── App Layout ──────────────────────────────────────────────────── */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  gap: 6px;
+  padding: 6px;
+}
+
+/* ─── Top Bar ─────────────────────────────────────────────────────── */
+#top-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 8px;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+.player-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: border-color .3s, box-shadow .3s;
+}
+
+.player-panel.active {
+  border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(212,160,23,.35);
+}
+
+#panel-p1.active { border-color: var(--p1-color); box-shadow: 0 0 12px rgba(74,158,255,.35); }
+#panel-p2.active { border-color: var(--p2-color); box-shadow: 0 0 12px rgba(255,107,74,.35); }
+
+.player-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  font-weight: bold;
+}
+
+#panel-p1 .player-label { color: var(--p1-color); }
+#panel-p2 .player-label { color: var(--p2-color); }
+
+.ball-type {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--gold-light);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.pocketed-balls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  min-height: 18px;
+}
+
+.mini-ball {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: inset -2px -2px 4px rgba(0,0,0,.4), inset 1px 1px 3px rgba(255,255,255,.3);
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* ─── Center Info ─────────────────────────────────────────────────── */
+#center-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+#game-title {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-shadow: 0 0 12px rgba(212,160,23,.5);
+}
+
+#turn-indicator {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+#turn-text { color: var(--text); }
+
+#message-box {
+  font-size: 11px;
+  color: var(--gold-light);
+  letter-spacing: 1px;
+  min-height: 15px;
+  text-align: center;
+  animation: fadeIn .3s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── Canvas Container ────────────────────────────────────────────── */
+#canvas-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 0;
+}
+
+#pool-canvas {
+  display: block;
+  border-radius: 4px;
+  cursor: crosshair;
+  image-rendering: pixelated;
+}
+
+/* ─── Bottom Bar ──────────────────────────────────────────────────── */
+#bottom-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  flex-shrink: 0;
+}
+
+#power-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+#power-container .label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+#power-track {
+  flex: 1;
+  height: 8px;
+  background: #111;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  max-width: 220px;
+}
+
+#power-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #2ecc71, #f1c40f, #e74c3c);
+  transition: width .05s;
+}
+
+#power-pct {
+  font-size: 11px;
+  color: var(--text-dim);
+  min-width: 36px;
+  text-align: right;
+}
+
+#restart-btn {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 2px;
+  padding: 6px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background .2s, color .2s;
+  white-space: nowrap;
+}
+
+#restart-btn:hover {
+  background: var(--gold);
+  color: #000;
+}
+
+#instructions {
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+/* ─── Win Overlay ─────────────────────────────────────────────────── */
+#win-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  backdrop-filter: blur(4px);
+}
+
+#win-overlay.hidden { display: none; }
+
+#win-card {
+  background: var(--surface);
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  padding: 48px 64px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(212,160,23,.4), var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+#win-emoji { font-size: 64px; line-height: 1; }
+
+#win-title {
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 6px;
+  color: var(--gold);
+  text-shadow: 0 0 16px rgba(212,160,23,.6);
+}
+
+#win-message {
+  font-size: 16px;
+  color: var(--text);
+  letter-spacing: 2px;
+}
+
+#win-restart-btn {
+  margin-top: 8px;
+  background: var(--gold);
+  border: none;
+  color: #000;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  padding: 12px 32px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+}
+
+#win-restart-btn:hover {
+  background: var(--gold-light);
+  transform: scale(1.04);
+}
+
+/* ─── Scrollbar hide ──────────────────────────────────────────────── */
+::-webkit-scrollbar { display: none; }

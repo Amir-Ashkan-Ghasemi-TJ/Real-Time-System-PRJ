@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>8 Ball Pool</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <header id="top-bar">
+      <div class="player-panel" id="panel-p1">
+        <div class="player-label">PLAYER 1</div>
+        <div class="ball-type" id="p1-type">—</div>
+        <div class="pocketed-balls" id="p1-balls"></div>
+      </div>
+
+      <div id="center-info">
+        <div id="game-title">8 BALL POOL</div>
+        <div id="turn-indicator">
+          <span id="turn-text">PLAYER 1's TURN</span>
+        </div>
+        <div id="message-box"></div>
+      </div>
+
+      <div class="player-panel" id="panel-p2">
+        <div class="player-label">PLAYER 2</div>
+        <div class="ball-type" id="p2-type">—</div>
+        <div class="pocketed-balls" id="p2-balls"></div>
+      </div>
+    </header>
+
+    <main id="canvas-container">
+      <canvas id="pool-canvas"></canvas>
+    </main>
+
+    <footer id="bottom-bar">
+      <div id="power-container">
+        <span class="label">POWER</span>
+        <div id="power-track">
+          <div id="power-fill"></div>
+        </div>
+        <span id="power-pct">0%</span>
+      </div>
+      <button id="restart-btn">↺ RESTART</button>
+      <div id="instructions">
+        Aim with mouse &nbsp;|&nbsp; Hold &amp; drag to set power &nbsp;|&nbsp; Release to shoot
+      </div>
+    </footer>
+  </div>
+
+  <!-- Win overlay -->
+  <div id="win-overlay" class="hidden">
+    <div id="win-card">
+      <div id="win-emoji">🎱</div>
+      <div id="win-title">GAME OVER</div>
+      <div id="win-message"></div>
+      <button id="win-restart-btn">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
