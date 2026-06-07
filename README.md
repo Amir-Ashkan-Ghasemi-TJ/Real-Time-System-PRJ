@@ -28,6 +28,13 @@ game.js
 
 کافی است فایل `index.html` را در مرورگر باز کنید یا از لینک آنلاین استفاده کنید.
 
+## تصویر بازی
+
+![Game picture](Preview.png)
+
+
+
+
 ## توسعه‌دهنده
 
 Amir Ashkan Ghasemi
